@@ -4,15 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            <!--android:icon="@drawable/ic_menu_camera"-->
+            android:title="Programare noua" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            android:title="Programari trecute" />
         <item
             android:id="@+id/nav_slideshow"
-            android:title="Slideshow" />
+            android:title="Dosar medical" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
