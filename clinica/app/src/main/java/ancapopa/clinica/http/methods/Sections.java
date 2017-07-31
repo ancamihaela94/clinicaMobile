@@ -15,6 +15,6 @@ public interface Sections {
     Call<SectionsResponse> listSections();
 
     @GET("/api/clinics/{id}/sections")
-    Response getSectionsByClinicId(@Path("id") int id);
+    Call<SectionsResponse> getSectionsByClinicId(@Path("id") int id);
 
 }

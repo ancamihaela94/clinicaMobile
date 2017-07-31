@@ -1,8 +1,12 @@
 package ancapopa.clinica.http;
 
+import ancapopa.clinica.http.methods.Appointments;
 import ancapopa.clinica.http.methods.Cities;
 import ancapopa.clinica.http.methods.Clinics;
+import ancapopa.clinica.http.methods.Medics;
+import ancapopa.clinica.http.methods.Records;
 import ancapopa.clinica.http.methods.Sections;
+import ancapopa.clinica.model.Appointment;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -32,6 +36,16 @@ public class Api {
 
     public Sections getSectionsService() {
         return retrofit.create(Sections.class);
+    }
+
+
+    public Records getRecordsService() {
+        return retrofit.create(Records.class);
+    }
+    public Appointments getAppointmentsService() { return retrofit.create(Appointments.class); }
+
+    public Medics getMedicsService() {
+        return retrofit.create(Medics.class);
     }
 
 }
