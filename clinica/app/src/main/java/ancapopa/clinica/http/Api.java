@@ -2,6 +2,7 @@ package ancapopa.clinica.http;
 
 import ancapopa.clinica.http.methods.Cities;
 import ancapopa.clinica.http.methods.Clinics;
+import ancapopa.clinica.http.methods.Sections;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -29,5 +30,8 @@ public class Api {
     }
 
 
+    public Sections getSectionsService() {
+        return retrofit.create(Sections.class);
+    }
 
 }
