@@ -12,21 +12,21 @@ public class Appointment {
     @Expose
     private Integer id;
 
-    @SerializedName("user_id")
+    @SerializedName("user_name")
     @Expose
-    private String user_id;
+    private String user_name;
 
-    @SerializedName("medic_id")
+    @SerializedName("medic_name")
     @Expose
-    private String medic_id;
+    private String medic_name;
 
-    @SerializedName("clinic_id")
+    @SerializedName("clinic_name")
     @Expose
-    private String clinic_id;
+    private String clinic_name;
 
-    @SerializedName("section_id")
+    @SerializedName("section_name")
     @Expose
-    private String section_id;
+    private String section_name;
 
     @SerializedName("reason")
     @Expose
@@ -53,36 +53,34 @@ public class Appointment {
         this.id = id;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getMedic_id() {
-        return medic_id;
+    public String getMedic_name() {
+        return medic_name;
     }
 
-    public void setMedic_id(String medic_id) {
-        this.medic_id = medic_id;
+    public void setMedic_name(String medic_name) {
+        this.medic_name = medic_name;
     }
 
-    public String getClinic_id() {
-        return clinic_id;
+    public String getClinic_name() {
+        return clinic_name;
     }
 
-    public void setClinic_id(String clinic_id) {
-        this.clinic_id = clinic_id;
+    public void setClinic_name(String clinic_name) {
+        this.clinic_name = clinic_name;
     }
 
-    public String getSection_id() {
-        return section_id;
-    }
+    public String getSection_name() { return section_name; }
 
-    public void setSection_id(String clinic_id) {
-        this.section_id = section_id;
+    public void setSection_name(String section_name) {
+        this.section_name = section_name;
     }
 
     public String getReason() {

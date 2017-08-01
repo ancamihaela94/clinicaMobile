@@ -99,12 +99,17 @@ public class AppointmentsFragment extends Fragment implements SwipeRefreshLayout
         private List<Appointment> appointmentList;
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView appointmentId, appointmentReason;
+            public TextView appointmentId,appointmentMedicName,appointmentClinicName, appointmentSectionName, appointmentReason, appointmentDate, appointmentStatus;
 
             public MyViewHolder(View view) {
                 super(view);
                 appointmentId = (TextView) view.findViewById(R.id.appointment_id);
+                appointmentMedicName = (TextView) view.findViewById(R.id.appointment_medic_name);
+                appointmentClinicName = (TextView) view.findViewById(R.id.appointment_clinic_name);
+                appointmentSectionName = (TextView) view.findViewById(R.id.appointment_section_name);
                 appointmentReason = (TextView) view.findViewById(R.id.appointment_reason);
+                appointmentDate = (TextView) view.findViewById(R.id.appointment_date);
+                appointmentStatus = (TextView) view.findViewById(R.id.appointment_status);
             }
         }
 
@@ -124,7 +129,12 @@ public class AppointmentsFragment extends Fragment implements SwipeRefreshLayout
         public void onBindViewHolder(MyViewHolder holder, int position) {
             Appointment appointment = appointmentList.get(position);
             holder.appointmentId.setText(String.valueOf(appointment.getId()));
+            holder.appointmentMedicName.setText(appointment.getMedic_name());
+            holder.appointmentClinicName.setText(appointment.getClinic_name());
+            holder.appointmentSectionName.setText(appointment.getSection_name());
             holder.appointmentReason.setText(appointment.getReason());
+            holder.appointmentDate.setText(appointment.getCreatedAt());
+            holder.appointmentStatus.setText(String.valueOf(appointment.getStatus()));
         }
 
         @Override
