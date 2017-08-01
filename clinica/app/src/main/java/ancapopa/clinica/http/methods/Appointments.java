@@ -1,9 +1,13 @@
 package ancapopa.clinica.http.methods;
 
+import ancapopa.clinica.model.Appointment;
 import ancapopa.clinica.model.AppointmentsResponse;
 import ancapopa.clinica.model.RecordsResponse;
 import retrofit.Call;
+import retrofit.http.Body;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
@@ -13,4 +17,8 @@ public interface Appointments {
     @GET("/api/user-appointments/{id}")
     Call<AppointmentsResponse> getAppointmentsByUserId(@Path("id") int id);
 
+
+    @POST("/api/appointments")
+    @FormUrlEncoded
+    Call<Appointment> saveAppointment(@Body Appointment appointment);
 }

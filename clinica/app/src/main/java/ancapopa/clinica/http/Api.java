@@ -7,6 +7,7 @@ import ancapopa.clinica.http.methods.Medics;
 import ancapopa.clinica.http.methods.Records;
 import ancapopa.clinica.http.methods.Sections;
 import ancapopa.clinica.model.Appointment;
+import ancapopa.clinica.model.Login;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -46,6 +47,9 @@ public class Api {
 
     public Medics getMedicsService() {
         return retrofit.create(Medics.class);
+    }
+    public Login getLoginService() {
+        return retrofit.create(Login.class);
     }
 
 }
