@@ -14,9 +14,9 @@ public class LoginResponse {
     @SerializedName("status")
     @Expose
     private Integer status;
-    @SerializedName("data")
+    @SerializedName("user")
     @Expose
-    private List<Login> data = null;
+    private List<User> user = null;
 
     public Integer getStatus() {
         return status;
@@ -26,12 +26,12 @@ public class LoginResponse {
         this.status = status;
     }
 
-    public List<Login> getData() {
-        return data;
+    public List<User> getData() {
+        return user;
     }
 
-    public void setData(List<Login> data) {
-        this.data = data;
+    public void setData(List<User> data) {
+        this.user = data;
     }
 
 }

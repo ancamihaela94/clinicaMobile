@@ -3,6 +3,7 @@ package ancapopa.clinica.http;
 import ancapopa.clinica.http.methods.Appointments;
 import ancapopa.clinica.http.methods.Cities;
 import ancapopa.clinica.http.methods.Clinics;
+import ancapopa.clinica.http.methods.Logins;
 import ancapopa.clinica.http.methods.Medics;
 import ancapopa.clinica.http.methods.Records;
 import ancapopa.clinica.http.methods.Sections;
@@ -48,8 +49,8 @@ public class Api {
     public Medics getMedicsService() {
         return retrofit.create(Medics.class);
     }
-    public Login getLoginService() {
-        return retrofit.create(Login.class);
+    public Logins getLoginService() {
+        return retrofit.create(Logins.class);
     }
 
 }
