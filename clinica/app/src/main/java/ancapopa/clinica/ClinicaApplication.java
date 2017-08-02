@@ -5,7 +5,7 @@ import android.app.Application;
 import com.squareup.otto.Bus;
 
 /**
- * Created by vlad on 26/07/2017.
+ * Created by anca.popa on 26/07/2017.
  */
 
 public class ClinicaApplication extends Application {

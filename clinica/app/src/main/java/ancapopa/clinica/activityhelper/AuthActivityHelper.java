@@ -15,7 +15,7 @@ import ancapopa.clinica.R;
 import ancapopa.clinica.events.UserAuthEvent;
 
 /**
- * Created by vlad on 27/07/2017.
+ * Created by anca.popa on 27/07/2017.
  */
 
 public class AuthActivityHelper {
@@ -26,7 +26,7 @@ public class AuthActivityHelper {
 
     @Subscribe
     public void onAuthEvent(UserAuthEvent event) {
-        Log.d("Depanero","Event");
+        Log.d("Clinica","Event");
         if (event.getLogin()) {
             mActivity.startActivity(new Intent(mActivity,MainActivity.class));
             mActivity.finish();

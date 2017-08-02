@@ -10,7 +10,7 @@ import ancapopa.clinica.R;
 
 
 /**
- * Created by vlad on 27/07/2017.
+ * Created by anca.popa on 27/07/2017.
  */
 
 public class RedFragment extends Fragment {

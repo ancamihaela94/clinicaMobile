@@ -1,7 +1,7 @@
 package ancapopa.clinica.events;
 
 /**
- * Created by vlad on 26/07/2017.
+ * Created by anca.popa on 26/07/2017.
  */
 
 public class UserAuthEvent {

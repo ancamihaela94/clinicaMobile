@@ -11,7 +11,7 @@ import ancapopa.clinica.services.AuthService;
 
 
 /**
- * Created by vlad on 26/07/2017.
+ * Created by anca.popa on 26/07/2017.
  */
 
 public class BaseActivity extends AppCompatActivity {

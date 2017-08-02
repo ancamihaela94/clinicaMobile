@@ -10,7 +10,7 @@ import ancapopa.clinica.events.UserAuthEvent;
 
 
 /**
- * Created by vlad on 26/07/2017.
+ * Created by anca.popa on 26/07/2017.
  */
 
 public class AuthService {
@@ -44,14 +44,14 @@ public class AuthService {
     }
 
     private void onLoginSuccess() {
-        Log.d("Depanero","On Login Success");
+        Log.d("Clinica","On Login Success");
         getSharedPrefs().edit().putString(KEY_USER_ID,"666").commit();
 
         mEventBus.post(new UserAuthEvent(true));
     }
 
     public void logout() {
-        Log.d("Depanero","Logout");
+        Log.d("Clinica","Logout");
 
         getSharedPrefs().edit().remove(KEY_USER_ID).commit();
 
