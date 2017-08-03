@@ -8,9 +8,12 @@
 
 
     <string name="prompt_email">Email</string>
+    <string name="prompt_name">Name</string>
+    <string name="prompt_phone">Phone Number</string>
     <string name="prompt_password">Password </string>
     <string name="registration_button">Register</string>
     <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register Now</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -20,7 +23,7 @@
     <string name="no_text"> </string>
     <string name="registration_message">You are not registered yet. Use the registration button to complete your registration.</string>
     <string name="registration_failed">Your email or password is already in use</string>
-
+    <string name="action_register_now">Don\'t have an account? Register now!</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <string name="dialog_logout_title">Logout</string>

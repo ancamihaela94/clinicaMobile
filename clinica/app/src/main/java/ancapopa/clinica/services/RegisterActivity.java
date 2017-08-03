@@ -1,101 +1,72 @@
-package ancapopa.clinica;
+package ancapopa.clinica.services;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import ancapopa.clinica.BaseActivity;
+import ancapopa.clinica.MainActivity;
+import ancapopa.clinica.R;
 import ancapopa.clinica.http.Api;
-import ancapopa.clinica.http.methods.Logins;
-import ancapopa.clinica.model.Login;
-import ancapopa.clinica.model.LoginResponse;
-import ancapopa.clinica.model.User;
-import ancapopa.clinica.services.RegisterActivity;
+import ancapopa.clinica.http.methods.Registers;
+import ancapopa.clinica.model.Register;
+import ancapopa.clinica.model.RegisterResponse;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-import static android.Manifest.permission.READ_CONTACTS;
-
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity {
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
+    private EditText mNameView;
+    private EditText mPhoneNumberView;
     private EditText mPasswordView;
     private View mProgressView;
-    private View mLoginFormView;
+    private View mRegisterFormView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        setContentView(R.layout.register_login);
+        // Set up the register form.
+        mEmailView = (EditText) findViewById(R.id.email_register);
+        mNameView = (EditText) findViewById(R.id.name_register);
+        mPhoneNumberView = (EditText) findViewById(R.id.phone_number);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mPasswordView = (EditText) findViewById(R.id.password_register);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        Button mRegisterNowButton = (Button) findViewById(R.id.register_now_btn);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-                //getAuthService().loginApi("","");
-            }
-        });
+
+        Button mRegisterNowButton = (Button) findViewById(R.id.register_btn);
 
         mRegisterNowButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                attemptRegister();
+                //getAuthService().loginApi("","");
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mRegisterFormView = findViewById(R.id.register_form);
+        mProgressView = findViewById(R.id.register_progress);
+
     }
 
 
@@ -104,13 +75,16 @@ public class LoginActivity extends BaseActivity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegister() {
 
         // Reset errors.
         mEmailView.setError(null);
+        mNameView.setError(null);
+        mPhoneNumberView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
+
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
@@ -118,7 +92,7 @@ public class LoginActivity extends BaseActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password)&& !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -129,7 +103,8 @@ public class LoginActivity extends BaseActivity {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        }
+        else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -143,7 +118,7 @@ public class LoginActivity extends BaseActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            login();
+            register();
         }
     }
 
@@ -168,12 +143,12 @@ public class LoginActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mRegisterFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -189,34 +164,36 @@ public class LoginActivity extends BaseActivity {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
-    public void login() {
+    public void register() {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String name = mNameView.getText().toString();
+        String phone_number = mPhoneNumberView.getText().toString();
 
-        Logins loginService = (new Api()).getLoginService();
-        Login login = new Login(email,password);
-        Call<LoginResponse> userCall = loginService.login(login);
-        userCall.enqueue(new Callback<LoginResponse>() {
+        Registers registerService = (new Api()).getRegisterService();
+        Register register = new Register(name,email,phone_number,password);
+        Call<RegisterResponse> registerCall = registerService.register(register);
+        registerCall.enqueue(new Callback<RegisterResponse>() {
             @Override
-            public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
-                if (response.body().getStatus() == 200) {
-                    Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            public void onResponse(Response<RegisterResponse> response, Retrofit retrofit) {
+                if (response.body().getStatus() == 201) {
+                    Toast.makeText(RegisterActivity.this, "Register is successful!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this,MainActivity.class));
                     finish();
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Login Failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Register Failed.", Toast.LENGTH_SHORT).show();
                 }
                 showProgress(false);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(LoginActivity.this, "Login Failed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Register Failed.", Toast.LENGTH_SHORT).show();
                 showProgress(false);
             }
         });

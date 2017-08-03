@@ -6,6 +6,7 @@ import ancapopa.clinica.http.methods.Clinics;
 import ancapopa.clinica.http.methods.Logins;
 import ancapopa.clinica.http.methods.Medics;
 import ancapopa.clinica.http.methods.Records;
+import ancapopa.clinica.http.methods.Registers;
 import ancapopa.clinica.http.methods.Sections;
 import ancapopa.clinica.model.Appointment;
 import ancapopa.clinica.model.Login;
@@ -52,5 +53,6 @@ public class Api {
     public Logins getLoginService() {
         return retrofit.create(Logins.class);
     }
+    public Registers getRegisterService() { return retrofit.create(Registers.class);}
 
 }
