@@ -43,8 +43,9 @@ public class Clinic {
         return name;
     }
 
-    public void setName(String name) {
+    public Clinic setName(String name) {
         this.name = name;
+        return this;
     }
 
     public void setStatus(Integer status) { this.status = status; }
@@ -66,5 +67,11 @@ public class Clinic {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 
 }

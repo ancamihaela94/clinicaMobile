@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -42,6 +43,11 @@ public class LoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (getSharedPreferences("login",0).getInt("user_id",0) > 0) {
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
+        }
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
@@ -63,7 +69,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                //getAuthService().loginApi("","");
             }
         });
 
@@ -185,6 +190,9 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
                 if (response.body().getStatus() == 200) {
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences prefs = getSharedPreferences("login", 0);
+                    prefs.edit().putInt("user_id",response.body().getData().get(0).getId()).commit();
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();
                 }

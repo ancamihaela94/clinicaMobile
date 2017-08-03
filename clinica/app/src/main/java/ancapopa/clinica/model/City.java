@@ -33,8 +33,9 @@ public class City {
         return name;
     }
 
-    public void setName(String name) {
+    public City setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getCreatedAt() {
@@ -51,6 +52,11 @@ public class City {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

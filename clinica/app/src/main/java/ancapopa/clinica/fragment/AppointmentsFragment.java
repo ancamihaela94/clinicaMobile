@@ -1,5 +1,6 @@
 package ancapopa.clinica.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -71,7 +72,7 @@ public class AppointmentsFragment extends Fragment implements SwipeRefreshLayout
 
     public void populateData() {
         Appointments appointmentService = (new Api()).getAppointmentsService();
-        Call<AppointmentsResponse> appointmentsByUser = appointmentService.getAppointmentsByUserId(13);
+        Call<AppointmentsResponse> appointmentsByUser = appointmentService.getAppointmentsByUserId(getContext().getSharedPreferences("login", 0).getInt("user_id",0));
         Log.d("CLINICA","appointments call");
         appointmentsByUser.enqueue(new Callback<AppointmentsResponse>() {
 

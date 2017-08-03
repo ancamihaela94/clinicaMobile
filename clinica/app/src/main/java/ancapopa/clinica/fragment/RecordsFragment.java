@@ -71,7 +71,7 @@ public class RecordsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     public void populateData() {
         Records recordsService = (new Api()).getRecordsService();
-        Call<RecordsResponse> responseCall = recordsService.getRecordsByUserId(3);
+        Call<RecordsResponse> responseCall = recordsService.getRecordsByUserId(getContext().getSharedPreferences("login", 0).getInt("user_id",0));
         Log.d("CLINICA","records call");
         responseCall.enqueue(new Callback<RecordsResponse>() {
 

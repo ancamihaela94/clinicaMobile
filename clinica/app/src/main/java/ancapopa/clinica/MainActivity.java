@@ -1,5 +1,7 @@
 package ancapopa.clinica;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ancapopa.clinica.fragment.AppointmentsFragment;
+import ancapopa.clinica.fragment.CreateAppointmentFragment;
 import ancapopa.clinica.fragment.RecordsFragment;
+import ancapopa.clinica.services.DialogService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -102,12 +106,23 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_appointment) {
-
-        } else if (id == R.id.nav_old_appointments) {
+            fragmentClass = CreateAppointmentFragment.class;
+        }
+        else if (id == R.id.nav_old_appointments) {
             fragmentClass = AppointmentsFragment.class;
         }
         else if(id == R.id.nav_records) {
             fragmentClass = RecordsFragment.class;
+        }
+        else if (id == R.id.nav_logout) {
+            DialogService.buildLogoutDialog(this, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    getSharedPreferences("login",0).edit().clear().commit();
+                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    finish();
+                }
+            }).show();
         }
 
         if (fragmentClass != null) {
