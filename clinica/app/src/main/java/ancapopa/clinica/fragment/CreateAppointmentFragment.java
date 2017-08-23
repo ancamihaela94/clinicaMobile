@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,12 +24,19 @@ import ancapopa.clinica.http.Api;
 import ancapopa.clinica.http.methods.Appointments;
 import ancapopa.clinica.http.methods.Cities;
 import ancapopa.clinica.http.methods.Clinics;
+import ancapopa.clinica.http.methods.Medics;
+import ancapopa.clinica.http.methods.Sections;
 import ancapopa.clinica.model.Appointment;
 import ancapopa.clinica.model.AppointmentsResponse;
 import ancapopa.clinica.model.CitiesResponse;
 import ancapopa.clinica.model.City;
 import ancapopa.clinica.model.Clinic;
 import ancapopa.clinica.model.ClinicsResponse;
+import ancapopa.clinica.model.Medic;
+import ancapopa.clinica.model.MedicsResponse;
+import ancapopa.clinica.model.Section;
+import ancapopa.clinica.model.SectionsResponse;
+import ancapopa.clinica.services.DialogService;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -43,8 +51,13 @@ public class CreateAppointmentFragment extends Fragment {
 
     City selectedCity = null;
     Clinic selectedClinic = null;
+    Section selectedSection = null;
+    Medic selectedMedic = null;
     Spinner citySpinner = null;
     Spinner clinicsSpinner = null;
+    Spinner sectionsSpinner = null;
+    Spinner medicSpinner = null;
+    Button datePicker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +91,7 @@ public class CreateAppointmentFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
                 selectedClinic = (Clinic) adapterView.getItemAtPosition(pos);
-
+                populateSections();
             }
 
             @Override
@@ -86,6 +99,37 @@ public class CreateAppointmentFragment extends Fragment {
                 selectedClinic = null;
             }
         });
+
+        sectionsSpinner = (Spinner) view.findViewById((R.id.sections_spinner));
+        sectionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                selectedSection = (Section) adapterView.getItemAtPosition(pos);
+                populateMedics();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                selectedSection = null;
+            }
+        });
+
+        medicSpinner = (Spinner) view.findViewById((R.id.medic_spinner));
+        medicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                selectedMedic = (Medic) adapterView.getItemAtPosition(pos);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                selectedMedic = null;
+            }
+        });
+
+//        datePicker = (Button) view.findViewById(R.id.date_picker);
+//        datePicker.setOnClickListener(DialogService.showDateChooserDialog());
 
 
         return view;
@@ -169,7 +213,7 @@ public class CreateAppointmentFragment extends Fragment {
             });
         } else {
             List<Clinic> results = new ArrayList<>();
-            results.add((new Clinic()).setName("--Alege orasul--"));
+            results.add((new Clinic()).setName("--Alege clinica--"));
 
             ArrayAdapter<Clinic> adapter =
                     new ArrayAdapter<Clinic>(getContext(), android.R.layout.simple_spinner_dropdown_item, results);
@@ -180,5 +224,86 @@ public class CreateAppointmentFragment extends Fragment {
 
     }
 
+
+    public void populateSections(){
+        if(selectedClinic != null && selectedClinic.getId() != null) {
+            Sections sectionsService = (new Api()).getSectionsService();
+            Call<SectionsResponse> sectionsCall = sectionsService.getSectionsByClinicId(selectedClinic.getId());
+            Log.d("CLINICA","Something");
+            sectionsCall.enqueue(new Callback<SectionsResponse>() {
+
+                @Override
+                public void onResponse(Response<SectionsResponse> response, Retrofit retrofit) {
+                    List<Section> results = new ArrayList<>();
+                    results.add((new Section()).setName("--Alege sectia--"));
+                    results.addAll(response.body().getData());
+
+                    ArrayAdapter<Section> adapter =
+                            new ArrayAdapter<Section>(getContext(), android.R.layout.simple_spinner_dropdown_item, results);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    sectionsSpinner.setAdapter(adapter);
+                    //response.body().getData().;
+                    Log.d("CLINICA - sections call",String.valueOf(response.body().getStatus()));
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Log.d("CLINICA - sections call","Error");
+                }
+            });
+        } else {
+            List<Section> results = new ArrayList<>();
+            results.add((new Section()).setName("--Alege sectia--"));
+
+            ArrayAdapter<Section> adapter =
+                    new ArrayAdapter<Section>(getContext(), android.R.layout.simple_spinner_dropdown_item, results);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            sectionsSpinner.setAdapter(adapter);
+        }
+
+    }
+
+
+    public void populateMedics() {
+        if (selectedSection != null && selectedSection.getId() != null) {
+            Medics medicService = (new Api()).getMedicsService();
+            Call<MedicsResponse> medicCall = medicService.listMedics(selectedClinic.getId(), selectedSection.getId());
+            Log.d("CLINICA", "Something");
+            medicCall.enqueue(new Callback<MedicsResponse>() {
+
+                @Override
+                public void onResponse(Response<MedicsResponse> response, Retrofit retrofit) {
+                    List<Medic> results = new ArrayList<>();
+                    results.add((new Medic()).setName("--Alege cadrul Medical--"));
+                    results.addAll(response.body().getData());
+
+                    ArrayAdapter<Medic> adapter =
+                            new ArrayAdapter<Medic>(getContext(), android.R.layout.simple_spinner_dropdown_item, results);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    medicSpinner.setAdapter(adapter);
+                    //response.body().getData().;
+                    Log.d("CLINICA - medic call", String.valueOf(response.body().getStatus()));
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Log.d("CLINICA - medic call", "Error");
+                }
+            });
+        } else {
+            List<Medic> results = new ArrayList<>();
+            results.add((new Medic()).setName("--Alege cadrul medical--"));
+
+            ArrayAdapter<Medic> adapter =
+                    new ArrayAdapter<Medic>(getContext(), android.R.layout.simple_spinner_dropdown_item, results);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            medicSpinner.setAdapter(adapter);
+        }
+
+    }
 
 }

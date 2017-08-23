@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/appointment_list_item_height"
+    android:layout_height="match_parent"
     android:focusable="true"
     android:padding="@dimen/list_margin"
     android:clickable="true">
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="504dp"
+        android:layout_height="match_parent"
         android:background="@color/colorGreyBg"
         android:padding="@dimen/item_padding">
 
@@ -22,6 +22,23 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cities_spinner"/>
+        <Spinner
+            android:id="@+id/sections_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/clinics_spinner"/>
+
+        <Spinner
+            android:id="@+id/medic_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sections_spinner"/>
+
+        <Button
+            android:id="@+id/date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
     </RelativeLayout>
 </FrameLayout>
