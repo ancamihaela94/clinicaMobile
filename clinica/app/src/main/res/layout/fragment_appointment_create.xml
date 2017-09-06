@@ -34,10 +34,27 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/sections_spinner"/>
 
-        <Button
+
+        <EditText
             android:id="@+id/date_picker"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/medic_spinner"
+            android:text="@string/date_picker_appointments"/>
+
+        <!--<EditText-->
+            <!--android:id="@+id/reason"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/date_picker"-->
+            <!--android:text="Introdu motivul"/>-->
+
+        <Button
+            android:id="@+id/submit_appointment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_picker"
+            android:text="@string/submit_button_appointments"/>
 
 
     </RelativeLayout>

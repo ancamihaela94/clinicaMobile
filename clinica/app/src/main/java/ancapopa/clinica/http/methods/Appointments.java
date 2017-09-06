@@ -1,6 +1,8 @@
 package ancapopa.clinica.http.methods;
 
 import ancapopa.clinica.model.Appointment;
+import ancapopa.clinica.model.AppointmentCreate;
+import ancapopa.clinica.model.AppointmentsCreateResponse;
 import ancapopa.clinica.model.AppointmentsResponse;
 import ancapopa.clinica.model.RecordsResponse;
 import retrofit.Call;
@@ -19,6 +21,5 @@ public interface Appointments {
 
 
     @POST("/api/appointments")
-    @FormUrlEncoded
-    Call<Appointment> saveAppointment(@Body Appointment appointment);
+    Call<AppointmentsCreateResponse> saveAppointment(@Body AppointmentCreate appointment);
 }

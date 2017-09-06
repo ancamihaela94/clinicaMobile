@@ -1,5 +1,6 @@
 package ancapopa.clinica.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,12 +14,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ancapopa.clinica.MainActivity;
 import ancapopa.clinica.R;
 import ancapopa.clinica.http.Api;
 import ancapopa.clinica.http.methods.Appointments;
@@ -27,6 +31,8 @@ import ancapopa.clinica.http.methods.Clinics;
 import ancapopa.clinica.http.methods.Medics;
 import ancapopa.clinica.http.methods.Sections;
 import ancapopa.clinica.model.Appointment;
+import ancapopa.clinica.model.AppointmentCreate;
+import ancapopa.clinica.model.AppointmentsCreateResponse;
 import ancapopa.clinica.model.AppointmentsResponse;
 import ancapopa.clinica.model.CitiesResponse;
 import ancapopa.clinica.model.City;
@@ -57,7 +63,8 @@ public class CreateAppointmentFragment extends Fragment {
     Spinner clinicsSpinner = null;
     Spinner sectionsSpinner = null;
     Spinner medicSpinner = null;
-    Button datePicker;
+    EditText datePicker;
+//    EditText reason;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,7 +135,17 @@ public class CreateAppointmentFragment extends Fragment {
             }
         });
 
-//        datePicker = (Button) view.findViewById(R.id.date_picker);
+        datePicker = (EditText) view.findViewById(R.id.date_picker);
+        String date = datePicker.getText().toString();
+//        reason = (EditText) view.findViewById(R.id.reason);
+        Button submitAppt = (Button) view.findViewById(R.id.submit_appointment);
+        submitAppt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitAppointment();
+            }
+        });
+
 //        datePicker.setOnClickListener(DialogService.showDateChooserDialog());
 
 
@@ -171,18 +188,40 @@ public class CreateAppointmentFragment extends Fragment {
 
 
 
-
-
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.planets_array, android.R.layout.simple_spinner_item);
-//        // Specify the layout to use when the list of choices appears
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        // Apply the adapter to the spinner
-//        spinner.setAdapter(adapter);
-//        spinner.set
-
-
     }
+
+
+    private void submitAppointment() {
+        Integer user_id = getContext().getSharedPreferences("login", 0).getInt("user_id",0);
+        String date = datePicker.getText().toString();
+//        String appt_reason  = reason.getText().toString();
+//        Integer city_id = selectedCity.getId();
+        Integer clinic_id = selectedClinic.getId();
+        Integer medic_id = selectedMedic.getId();
+        Integer section_id = selectedSection.getId();
+
+        Appointments appointmentsService = (new Api()).getAppointmentsService();
+        AppointmentCreate appointment = new AppointmentCreate(user_id,medic_id, clinic_id,section_id,date);
+        Call<AppointmentsCreateResponse> appointmentsCall = appointmentsService.saveAppointment(appointment);
+        appointmentsCall.enqueue(new Callback<AppointmentsCreateResponse>() {
+            @Override
+            public void onResponse(Response<AppointmentsCreateResponse> response, Retrofit retrofit) {
+                if (response.body().getStatus() == 201) {
+                    Toast.makeText(getActivity(), "Appointment was created successfully!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getActivity(),AppointmentsFragment.class));
+                }
+                else {
+                    Toast.makeText(getActivity(), "Appointment creation Failed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getActivity(), "Appointment creation Failed.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public void populateClinics(){
         if(selectedCity != null && selectedCity.getId() != null) {
