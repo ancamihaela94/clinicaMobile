@@ -134,8 +134,13 @@ public class AppointmentsFragment extends Fragment implements SwipeRefreshLayout
             holder.appointmentClinicName.setText(appointment.getClinic_name());
             holder.appointmentSectionName.setText(appointment.getSection_name());
             holder.appointmentReason.setText(appointment.getReason());
-            holder.appointmentDate.setText(appointment.getCreatedAt());
-            holder.appointmentStatus.setText(String.valueOf(appointment.getStatus()));
+            Log.d("test", appointment.getDate()+"");
+            holder.appointmentDate.setText(appointment.getDate());
+            String status = "In procesare";
+            if (appointment.getStatus() == 2) {
+                status = "Aprobata";
+            }
+            holder.appointmentStatus.setText(status);
         }
 
         @Override

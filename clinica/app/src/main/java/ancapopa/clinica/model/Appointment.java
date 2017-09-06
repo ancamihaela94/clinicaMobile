@@ -32,6 +32,11 @@ public class Appointment {
     @Expose
     private String reason;
 
+    @SerializedName("date")
+    @Expose
+    private String date;
+
+
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -89,6 +94,14 @@ public class Appointment {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getCreatedAt() {
