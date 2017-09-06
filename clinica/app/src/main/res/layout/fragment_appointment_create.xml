@@ -40,7 +40,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/medic_spinner"
-            android:text="@string/date_picker_appointments"/>
+            android:hint="@string/date_picker_appointments"/>
 
         <!--<EditText-->
             <!--android:id="@+id/reason"-->
