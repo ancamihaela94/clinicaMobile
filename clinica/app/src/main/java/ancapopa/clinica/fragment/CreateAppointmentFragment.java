@@ -207,17 +207,19 @@ public class CreateAppointmentFragment extends Fragment {
             @Override
             public void onResponse(Response<AppointmentsCreateResponse> response, Retrofit retrofit) {
                 if (response.body().getStatus() == 201) {
-                    Toast.makeText(getActivity(), "Appointment was created successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getActivity(),AppointmentsFragment.class));
+                    Toast.makeText(getActivity(), "Programarea a fost creata cu succes!", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(getActivity(), AppointmentsFragment.class);
+//                    getActivity().startActivity(intent);
+                    ((MainActivity) getActivity()).goToAppointments();
                 }
                 else {
-                    Toast.makeText(getActivity(), "Appointment creation Failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Nu s-a putut crea programarea.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getActivity(), "Appointment creation Failed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Nu s-a putut crea programarea."+ t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

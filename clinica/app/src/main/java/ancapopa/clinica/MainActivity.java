@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void goToAppointments() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameContent, new AppointmentsFragment(),"main").commit();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

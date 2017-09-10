@@ -8,17 +8,17 @@
 
 
     <string name="prompt_email">Email</string>
-    <string name="prompt_name">Name</string>
-    <string name="prompt_phone">Phone Number</string>
-    <string name="prompt_password">Password </string>
-    <string name="registration_button">Register</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_register">Register Now</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="prompt_name">Nume</string>
+    <string name="prompt_phone">Numar de telefon</string>
+    <string name="prompt_password">Parola </string>
+    <string name="registration_button">Inregistreaza-te</string>
+    <string name="action_sign_in">Autentificare</string>
+    <string name="action_register">Inregistreaza-te acum</string>
+    <string name="action_sign_in_short">Autentificare</string>
+    <string name="error_invalid_email">Adresa de email este invalida</string>
+    <string name="error_invalid_password">Parola este prea scurta</string>
+    <string name="error_incorrect_password">Parola e incorecta</string>
+    <string name="error_field_required">Acest camp este obligatoriu</string>
     <string name="permission_rationale">Contacts permissions are needed for providing email completions.</string>
     <string name="no_text"> </string>
     <string name="registration_message">You are not registered yet. Use the registration button to complete your registration.</string>
